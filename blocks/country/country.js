@@ -18,6 +18,7 @@ export default function decorate(block) {
     })
     .then(res => res.json()) 
     .then(data => {
+        console.log(data);
         res = data.data.country.name;
     });
     

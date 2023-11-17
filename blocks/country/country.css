@@ -1,0 +1,26 @@
+/* Product Card Container */
+.country {
+    width: 300px;
+    border: 1px solid #ddd;
+    padding: 16px;
+    margin: 16px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.country:hover {
+    transform: scale(1.05);
+}
+
+
+/* Product Image */
+.country img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+  }
+
+.country h2 {
+    font-size: 1.2em;
+    margin-top: 8px;
+  }

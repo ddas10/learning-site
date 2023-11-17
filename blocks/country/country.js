@@ -1,37 +1,91 @@
 export default function decorate(block) {
-    fetch('https://countries.trevorblades.com/', {
+    fetch('https://graph.adobe.io/api/d4132ec8-ae21-4c66-8585-561cb5bea682/graphql', {
       method: 'POST',
       body: JSON.stringify({
-        query: `query {
-          country(code: "BR"){
-            name
-            currency
-            emoji
-          }
-        }`,
-        // variables: {
-        //   ID: 'BR'
-        // }
+        query: ` {
+            contentSearch(input: "G-SHOCK") {
+              meta {
+                uuid
+                errors
+              }
+              response {
+                businessId
+                queryId
+                resultsCount
+                results {
+                  data {
+                    id
+                  }
+                  products {
+                    __typename
+                    id
+                    name
+                    sku
+                    images {
+                      url
+                    }
+                  }
+                }
+                allResultsForVertical {
+                  resultsCount
+                  results {
+                    data {
+                      id
+                    }
+                    products {
+                      __typename
+                      id
+                      name
+                      sku
+                      images {
+                        url
+                      }
+                    }
+                  }
+                }
+                appliedQueryFilters
+                facets
+                source
+                searchIntents
+                locationBias {
+                  latitude
+                  longitude
+                  locationDisplayName
+                  accuracy
+                }
+              }
+            }
+          }`,
       }),
       headers: {
-          'content-type': 'application/json'
+          'content-type': 'application/json',
+          'x-api-key': 'f55a7e88767c4fada88fdec4c85831f6'
       }
     })
     .then(res => res.json()) 
     .then(data => {
         console.log(data);
+
+    //     const results = data.data.contentSearch.response.results;
+    //     // Loop through the results and append each product ID to the header
+    //    results.forEach(result => {
+    //    const productId = result.data.id;
+    //    const image = result.product.images.url;
+    //    const header = document.createElement('h2');
+    //    const images = document.createElement('img');
+    //    header.textContent = productId;
+    //    images.src = image;
+    //    productDiv.appendChild(header);
+    //    productDiv.appendChild(images);
+    //   });
+
         const productDiv = block.querySelector(':scope > div > div');
-        const unorderedList = document.createElement('ul');
-        const listItem1 = document.createElement('li');
-        const listItem2 = document.createElement('li');
-        const listItem3 = document.createElement('li');
-        listItem1.textContent = data.data.country.name;
-        listItem2.textContent = data.data.country.currency;
-        listItem3.textContent = data.data.country.emoji;
-        unorderedList.appendChild(listItem1);
-        unorderedList.appendChild(listItem2);
-        unorderedList.appendChild(listItem3);
-        productDiv.appendChild(unorderedList);
+        const header = document.createElement('h2');
+        const imageOne = document.createElement('img');
+        header.textContent = data.data.contentSearch.response.results[0].data.id;
+        imageOne.src = data.data.contentSearch.response.results[0].products[0].images[0].url;
+        productDiv.appendChild(header);
+        productDiv.appendChild(imageOne);
     });
 }
 

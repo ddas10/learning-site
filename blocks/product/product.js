@@ -85,5 +85,4 @@ fetch('https://graph.adobe.io/api/d4132ec8-ae21-4c66-8585-561cb5bea682/graphql',
   .then(data => {
     console.log(data);
   });
-
 }
